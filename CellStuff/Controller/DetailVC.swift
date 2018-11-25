@@ -13,16 +13,18 @@ class DetailVC: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var button: UIButton!
     
-    let remember = DeviceState(deviceTitle: .remember)
-    let forget = DeviceState(deviceTitle: .forget)
-    private(set) var deviceStates = [DeviceState]()
+//    let remember = DeviceState(deviceTitle: .remember)
+//    let forget = DeviceState(deviceTitle: .forget)
+    fileprivate var deviceStates = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DetailCell.self, forCellReuseIdentifier: DetailCell.reuseIdentifier)
-        deviceStates = [remember, forget]
+        deviceStates = [DeviceState.remember, DeviceState.forget]
+        button.isEnabled = false
+        button.alpha = 0.1
     }
 }
 
@@ -39,7 +41,7 @@ extension DetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailCell.reuseIdentifier, for: indexPath) as? DetailCell else { fatalError() }
         let deviceState = deviceStates[indexPath.row]
-        cell.textLabel?.text = deviceState.deviceTitle.rawValue
+        cell.configure(with: deviceState)
         return cell
     }
 }
@@ -47,14 +49,19 @@ extension DetailVC: UITableViewDataSource {
 extension DetailVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        button.isEnabled = true
+        button.alpha = 1
         let deviceState = deviceStates[indexPath.row]
-        if deviceState === forget {
-            deviceState.selected = true
+        if deviceState == DeviceState.forget {
             print("FORGET")
         } else {
-            deviceState.selected = false
             print("REMEMBER")
         }
     }
+}
+
+private enum DeviceState {
+    static let remember = "Remember"
+    static let forget = "Forget"
 }
 

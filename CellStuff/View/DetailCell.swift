@@ -21,8 +21,8 @@ class DetailCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with deviceState: DeviceState) {
-        textLabel?.text = deviceState.deviceTitle.rawValue
+    func configure(with deviceState: String) {
+        textLabel?.text = deviceState
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -31,16 +31,16 @@ class DetailCell: UITableViewCell {
     }
 }
 
-class DeviceState {
-    let deviceTitle: DeviceTitle
-    var selected = false
-    init(deviceTitle: DeviceTitle) {
-        self.deviceTitle = deviceTitle
-    }
-}
-
-enum DeviceTitle: String {
-    case remember = "Remember"
-    case forget = "Forget"
-}
+//class DeviceState {
+//    let deviceTitle: DeviceTitle
+//    var selected = false
+//    init(deviceTitle: DeviceTitle) {
+//        self.deviceTitle = deviceTitle
+//    }
+//}
+//
+//enum DeviceTitle: String {
+//    case remember = "Remember"
+//    case forget = "Forget"
+//}
 
